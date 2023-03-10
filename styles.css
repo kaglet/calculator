@@ -13,26 +13,33 @@ body {
 }
 
 #calculator {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 520px;
     display: flex;
     flex-wrap: wrap;
+    gap: 9px;
+    justify-content: center;
+    padding: 30px 15px;
 }
 
-#calculator div {
-    width: 50px;
-    height: 50px;
+#calculator button {
+    width: 70px;
+    height: 70px;
 }
 
 #calculator #display {
-    width: 90%;
-    height: 30px;
+    width: 96%;
+    height: 70px;
 }
 
-div {
+button, div {
     border: 2px solid black;
 }
 
 #calculator #delete, #calculator #clear {
-    width: 45%;
+    width: 47%;
+}
+
+#calculator button {
+    font-size: 18px;
 }
