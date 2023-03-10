@@ -40,6 +40,29 @@ button, div {
     width: 47%;
 }
 
-#calculator button {
+#calculator button, #calculator div {
     font-size: 18px;
+}
+
+#calculation {
+    margin-right: auto;
+    justify-content: flex-start;
+}
+
+#result {
+    margin-left: auto;
+    justify-content: flex-end;
+}
+
+#calculation, #result {
+    border: none;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+
+
+#display {
+    padding: 0px 10px;
 }
