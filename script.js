@@ -4,8 +4,11 @@ let calculator = {
     appendDisplayText(value) {
         if (this.displayText.length < 31) {
             this.displayText += value;
-            let calculationDisplay = document.getElementById('calculation');
-            calculationDisplay.textContent = this.displayText;
+            let includesOperator = this.displayText.includes('+') || this.displayText.includes('x') || this.displayText.includes('÷');
+            if (includesOperator) {
+                let calculationDisplay = document.getElementById('calculation');
+                calculationDisplay.textContent = this.displayText;
+            }
         }
     }, 
 };
