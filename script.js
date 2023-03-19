@@ -4,11 +4,14 @@ let calculator = {
     displayText: "",
     appendDisplayText(value) {
         if (!isNaN(value)) {
+            let isLastCharAnOperator = isNaN(this.displayText[this.displayText.length - 1]); 
             let resultDisplay = document.getElementById('result');   
-            if (resultDisplay.textContent === '0') {
+            if (resultDisplay.textContent === '0' || isLastCharAnOperator) {
+                // overwrite div text contents with new entries
                 resultDisplay.textContent = value;
             }
             else {
+                // append div text contents with value
                 resultDisplay.textContent += value; 
             }       
         }
