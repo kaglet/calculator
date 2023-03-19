@@ -1,5 +1,6 @@
 let computedFirstResult = false;
 let calculator = {
+    result: 0,
     displayText: "",
     appendDisplayText(value) {
         if (this.displayText.length < 31) {
