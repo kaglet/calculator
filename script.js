@@ -1,26 +1,35 @@
 let computedFirstResult = false;
 let calculator = {
     result: 0,
-    displayText: "",
+    calculationText: "",
+    operatorCount: 0,
     appendDisplayText(value) {
-        if (!isNaN(value)) {
-            let isLastCharAnOperator = isNaN(this.displayText[this.displayText.length - 1]); 
+        // if the value is strictly a number add it to entry display
+        let isValANum = !isNaN(value);
+        if (isValANum) {
+            let isLastCharAnOperator = isNaN(this.calculationText[this.calculationText.length - 1]); 
             let resultDisplay = document.getElementById('result');   
             if (resultDisplay.textContent === '0' || isLastCharAnOperator) {
                 // overwrite div text contents with new entries
-                resultDisplay.textContent = value;
+                resultDisplay.textContent = value; 
             }
             else {
                 // append div text contents with value
                 resultDisplay.textContent += value; 
             }       
         }
-        if (this.displayText.length < 31) {
-            this.displayText += value;
-            let includesOperator = this.displayText.includes('+') || this.displayText.includes('x') || this.displayText.includes('÷');
+
+        if (!isValANum) {
+            this.operatorCount++;
+        }
+        // regardless of the value add it to the calculation display
+        // perform length check and number of operations check before appending (if both pass then run)
+        if (this.calculationText.length < 31 && this.operatorCount <= 1) {
+            this.calculationText += value;
+            let includesOperator = this.calculationText.includes('+') || this.calculationText.includes('x') || this.calculationText.includes('÷');
             if (includesOperator) {
                 let calculationDisplay = document.getElementById('calculation');
-                calculationDisplay.textContent = this.displayText;
+                calculationDisplay.textContent = this.calculationText;
             }
         }
     }, 
