@@ -1,15 +1,53 @@
 let computedFirstResult = false;
 let calculator = {
-    result: 0,
-    calculationText: "",
+    calculationText: "0",
     operatorCount: 0,
+    calculateResult() {
+
+        let firstNum = null;
+        let operator = null;
+        let secondNum = null;
+
+        for (let i = 0; i <= this.calculationText.length - 1; i++) {
+            if (isNaN(this.calculationText[i]) && !(this.calculationText[i] === '.')) {
+                operator = this.calculationText[i];
+                operatorIndex = i;
+                break;
+            }
+        }
+
+        firstNum = this.calculationText.substring(0, operatorIndex);
+        secondNum = this.calculationText.substring(operatorIndex+1);
+
+        if (firstNum && operator && secondNum) {
+            let numResult = operate(operator, firstNum, secondNum);
+            return numResult;
+        }
+        if (firstNum && operator) {
+            return "keepUnchanged";
+        }
+        if (operator && secondNum) {
+            if (operator === '-') {
+                return -secondNum;
+            }
+            return secondNum;
+        }
+        // if there is only an input without an operator
+        if (this.calculationText) {
+            return this.calculationText;
+        }
+
+        // anything else is an error, like use of dot where inappropriate, we'll read dots indiscriminately and they will terminate a number's end, only the operator does
+        return "Error";
+
+    },
     appendDisplayText(value) {
         // if the value is strictly a number add it to entry display
         let isValANum = !isNaN(value);
-        if (isValANum) {
-            let isLastCharAnOperator = isNaN(this.calculationText[this.calculationText.length - 1]); 
+        if (isValANum || value === '.') {
+            let isLastCharAnOperator = isNaN(this.calculationText[this.calculationText.length - 1]) && this.calculationText[this.calculationText.length - 1] !== '.'; 
             let resultDisplay = document.getElementById('result');   
-            if (resultDisplay.textContent === '0' || isLastCharAnOperator) {
+            if ((resultDisplay.textContent === '0' || isLastCharAnOperator) && value !== '.') {
                 // overwrite div text contents with new entries
                 resultDisplay.textContent = value; 
             }
@@ -19,14 +57,19 @@ let calculator = {
             }       
         }
 
-        if (!isValANum) {
+        if (!isValANum && value !== '.') {
             this.operatorCount++;
         }
         // regardless of the value add it to the calculation display
         // perform length check and number of operations check before appending (if both pass then run)
         if (this.calculationText.length < 31 && this.operatorCount <= 1) {
-            this.calculationText += value;
-            let includesOperator = this.calculationText.includes('+') || this.calculationText.includes('x') || this.calculationText.includes('÷');
+            if (this.calculationText[0] === "0" && this.calculationText.length === 1 && this.operatorCount === 0 && value !== '.') {
+                this.calculationText = value;
+            }
+            else {
+                this.calculationText += value;
+            }
+            let includesOperator = this.calculationText.includes('+') || this.calculationText.includes('x') || this.calculationText.includes('÷') || this.calculationText.includes('-');
             if (includesOperator) {
                 let calculationDisplay = document.getElementById('calculation');
                 calculationDisplay.textContent = this.calculationText;
@@ -53,6 +96,8 @@ function multiply(num1, num2) {
 
 function operate(operator, num1, num2) {
     let result = undefined;
+    num1 = +num1;
+    num2 = +num2;
     switch (operator) {
         case "+":
             result = add(num1, num2);
@@ -60,10 +105,10 @@ function operate(operator, num1, num2) {
         case "-":
             result = subtract(num1, num2);
             break;
-        case "*":
+        case "x":
             result = multiply(num1, num2);
             break;
-        case "/":
+        case "÷":
             result = divide(num1, num2);
             break;
         default:
@@ -80,8 +125,29 @@ function populateDisplay(e) {
 function setupPage() {
     const numButtons = document.querySelectorAll('.digit');
     const operators = document.querySelectorAll('.operator');
+    const equals = document.getElementById('equals');
+    const point = document.getElementById('.');
     numButtons.forEach(numButton => numButton.addEventListener('click', (e) => populateDisplay(e)));
-    operators.forEach(operator => operator.addEventListener('click', (e) => populateDisplay(e)));
+    operators.forEach(operator => operator.addEventListener('click', (e) => {
+        point.disabled = false;
+        populateDisplay(e)
+    }));
+    equals.addEventListener('click', () => {
+        point.disabled = false;
+        let resultDisplay = document.getElementById('result');  
+        let result = calculator.calculateResult();
+        if (result !== "keepUnchanged") {
+            resultDisplay.textContent = result;
+            let calculationDisplay = document.getElementById('calculation');
+            calculationDisplay.textContent = result;
+            calculator.calculationText = result.toString();
+            calculator.operatorCount = 0;
+        }
+    });
+    point.addEventListener('click', (e) => {
+        point.disabled = true;
+        populateDisplay(e);
+    });
 }
 
 // function populateDispla(value){
