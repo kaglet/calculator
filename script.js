@@ -3,6 +3,15 @@ let calculator = {
     result: 0,
     displayText: "",
     appendDisplayText(value) {
+        if (!isNaN(value)) {
+            let resultDisplay = document.getElementById('result');   
+            if (resultDisplay.textContent === '0') {
+                resultDisplay.textContent = value;
+            }
+            else {
+                resultDisplay.textContent += value; 
+            }       
+        }
         if (this.displayText.length < 31) {
             this.displayText += value;
             let includesOperator = this.displayText.includes('+') || this.displayText.includes('x') || this.displayText.includes('÷');
