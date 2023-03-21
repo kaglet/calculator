@@ -1,5 +1,6 @@
 let computedFirstResult = false;
 let calculator = {
+    result: 0,
     calculationText: "0",
     operatorCount: 0,
     calculateResult() {
@@ -118,6 +119,43 @@ function operate(operator, num1, num2) {
     return result;
 }
 
+function trimDigit(point) {
+    if (calculator.calculationText.length >= 1) {
+        let trimmedText = calculator.calculationText.substring(0, calculator.calculationText.length - 1);
+        let lastChar = calculator.calculationText.substring(calculator.calculationText.length - 1);
+        calculator.calculationText = trimmedText;
+        let resultDisplay = document.getElementById('result');
+        if (!isNaN(+calculator.calculationText) || !isNaN(parseFloat(calculator.calculationText).toFixed(2))) {
+            resultDisplay.textContent = result;
+        }
+        else {
+            resultDisplay.textContent = calculator.calculationText;
+            result = +calculator.calculationText;
+        }
+        resultDisplay.textContent = calculator.result;
+        if (lastChar === '.') {
+            point.disabled = false;
+        }
+    }
+}
+
+function clearAll(point) {
+    calculator.calculationText = "";
+    
+
+    // reset .
+    point.disabled = false;
+    // reset count
+    calculator.operatorCount = 0;
+
+    let resultDisplay = document.getElementById('result');
+    resultDisplay.textContent = "";
+    calculator.result = 0;
+
+    let calculationDisplay = document.getElementById('calculation');
+    calculationDisplay.textContent = calculator.calculationText;
+}
+
 function populateDisplay(e) {
     calculator.appendDisplayText(e.target.id);
 }
@@ -127,17 +165,22 @@ function setupPage() {
     const operators = document.querySelectorAll('.operator');
     const equals = document.getElementById('equals');
     const point = document.getElementById('.');
+    const clear = document.getElementById('clear');
+    const del = document.getElementById('delete');
     numButtons.forEach(numButton => numButton.addEventListener('click', (e) => populateDisplay(e)));
     operators.forEach(operator => operator.addEventListener('click', (e) => {
         point.disabled = false;
-        populateDisplay(e)
+        populateDisplay(e);
     }));
     equals.addEventListener('click', () => {
-        point.disabled = false;
         let resultDisplay = document.getElementById('result');  
         let result = calculator.calculateResult();
+        if (result.toString().includes('.')) {
+            point.disabled = true;   
+        }
         if (result !== "keepUnchanged") {
             resultDisplay.textContent = result;
+            calculator.result = result;
             let calculationDisplay = document.getElementById('calculation');
             calculationDisplay.textContent = result;
             calculator.calculationText = result.toString();
@@ -148,6 +191,9 @@ function setupPage() {
         point.disabled = true;
         populateDisplay(e);
     });
+
+    clear.addEventListener('click', () => clearAll(point));
+    del.addEventListener('click', () => trimDigit(point));
 }
 
 // function populateDispla(value){
