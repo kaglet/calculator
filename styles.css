@@ -27,9 +27,12 @@ body {
     height: 70px;
 }
 
-#calculator #display-value {
+#display {
     width: 96%;
     height: 70px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
 }
 
 button, div {
@@ -44,25 +47,19 @@ button, div {
     font-size: 18px;
 }
 
-#calculation {
+#ongoing-calculation {
     margin-right: auto;
     justify-content: flex-start;
 }
 
-#result {
+#display-value {
     margin-left: auto;
     justify-content: flex-end;
 }
 
-#calculation, #result {
+#ongoing-calculation, #display-value {
     border: none;
     height: 50%;
     display: flex;
     align-items: center;
-}
-
-
-
-#display {
-    padding: 0px 10px;
 }
