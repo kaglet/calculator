@@ -21,10 +21,27 @@ function calculateResult(operand1, operand2, operator) {
     }
 }
 
+function deleteLast(operand1, operand2, operator) {
+    let calculationString = operand1.toString() + operator + operand2.toString();
+    trimmedString = calculationString.slice(0, -1);
+    let calculationArray = calculationString.split(operator);
+    operand1 = calculationArray[0];
+    operator = calculationArray[1];
+    operand2 = calculationArray[2];
+
+    return {
+        operand1,
+        operand2,
+        operator,
+    };
+}
+
+let del = document.getElementById('.delete');
 let digits = document.querySelectorAll('.digit');
 let operators = document.querySelectorAll('.operator');
 let clear = document.getElementById('clear');
 let equals = document.getElementById('equals');
+
 
 // for delete, put it together as a string, delete last value, split by operator symbol to split up the parts if there are parts
 
@@ -33,6 +50,16 @@ let operator = '';
 
 let displayValueDisplay = document.getElementById('display-value');
 displayValueDisplay.textContent = operand1;
+
+del.addEventListener('click', (e) => {
+    let args = deleteLast(operand1, operand2, operator);
+    // check condition is truthy, if it is then value is defined so assign operand to it else give value of empty
+    // otherwise it comes back as undefined
+    operand1 = (args.operand1) ? args.operand1 : '0';
+    operand2 = (args.operand2) ? args.operand2 : '';
+    operator = (args.operator) ? args.operator : '';
+    updateOngoingCalculationDisplay(operand1, operand2, operator);
+});
 
 clear.addEventListener('click', (e) => {
     operand1 = '0';
@@ -76,21 +103,35 @@ operators.forEach(operatorBtn => operatorBtn.addEventListener('click', () => {
         return;
     }
 
+    // for second operator click
+    // if all spots are full calculate new result and add hanging operator, then update display
+
+    let areAllSpotsFull = operand1 && operand2 && operator;
+    if (areAllSpotsFull){
+        let newResult = calculateResult(operand1, operand2, operator);
+        
+        operand1 = (newResult.toString().indexOf('.') < 0) ? newResult.toString() : newResult.toFixed(2).toString();
+        operand2 = '';
+        operator = operatorBtn.textContent;
+        
+        updateDisplayValueDisplay(operand1);
+        updateOngoingCalculationDisplay(operand1, operand2, operatorBtn.textContent);
+        return;
+    }
     return;
 }));
-
-// for second operator click
-// if all spots are full calculate new result and add hanging operator, then update display
 
 equals.addEventListener('click', (e) => {
     // only takes effect if all arguments are present
     if (operand1 && operand2 && operator) {
         let newResult = calculateResult(operand1, operand2, operator);
-        updateDisplayValueDisplay(newResult);
-        updateOngoingCalculationDisplay(newResult.toString(), '', '');
-        operand1 = newResult.toString();
+        
+        operand1 = (newResult.toString().indexOf('.') < 0) ? newResult.toString() : newResult.toFixed(2).toString();
         operand2 = '';
         operator = '';
+
+        updateDisplayValueDisplay(operand1);
+        updateOngoingCalculationDisplay(operand1, '', '');
     }
 });
 
