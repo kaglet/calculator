@@ -1,23 +1,33 @@
+function updateDisplayValueDisplay(newResult, hangingOperator = ''){
+    let displayValueDisplay = document.getElementById('display-value');
+    displayValueDisplay.textContent = newResult + hangingOperator;
+}
 
+function updateOngoingCalculationDisplay(operand1, operand2, operator) {
+    let ongoingCalculationDisplay = document.getElementById('ongoing-calculation');
+    ongoingCalculationDisplay.textContent = operand1 + ' ' + operator + ' ' + operand2;
+}
 
-// differentiate between code to automatically run, methods, and properties belonging to this object
+let digits = document.querySelectorAll('.digit');
+let operators = document.querySelectorAll('.operator');
+let clear = document.getElementById('clear');
+let equals = document.getElementById('equals');
 
-// get node object of calculator
-digits = document.querySelectorAll('.digit');
-operators = document.querySelectorAll('.operator');
-displayValueDisplay = document.getElementById('display-value');
-ongoingCalculationDisplay = document.getElementById('ongoing-calculation');
-clear = document.getElementById('clear');
-equals = document.getElementById('equals');
+// for delete, put it together as a string, delete last value, split by operator symbol to split up the parts if there are parts
 
 let operand1 = '0', operand2 = '';
 let operator = '';
 
+let displayValueDisplay = document.getElementById('display-value');
 displayValueDisplay.textContent = operand1;
 
-function updateDisplays(operand1, operand2, operator) {
-    dis
-};
+clear.addEventListener('click', (e) => {
+    operand1 = '0';
+    operand2 = '';
+    operator = '';
+    updateDisplayValueDisplay('0');
+    updateOngoingCalculationDisplay('', operand2, operator);
+});
 
 digits.forEach(digit => digit.addEventListener('click', () => {
     // if operand1 is still 0, and operator is empty, overwrite 0 and continue to append
@@ -25,33 +35,33 @@ digits.forEach(digit => digit.addEventListener('click', () => {
     let isOperand1Appendable = (operand1 && operator === '');
     if (isOperand1Overwriteable) {
         operand1 = digit.textContent;
+        updateOngoingCalculationDisplay(operand1, operand2, operator);
         return;
     } else if (isOperand1Appendable) {
         operand1 += digit.textContent;
+        updateOngoingCalculationDisplay(operand1, operand2, operator);
         return;
     }
 
     // if operand 1 is not writeable or appendable because the operator is filled then write to operand 2
 
     operand2 += digit.textContent;
-    updateDisplays(operand1, operand2, operator);
+    updateOngoingCalculationDisplay(operand1, operand2, operator);
 
     return;
 }));
 
-operators.forEach(operator => operator.addEventListener('click', () => {
+operators.forEach(operatorBtn => operatorBtn.addEventListener('click', () => {
     // check if operator is empty
-    let isOperatorWriteable = !!operator;
+    let isOperatorWriteable = operator === '';
     // all these must evaluate to true to be overwriteable
     // operand1 can be 0 which is falsy, so include it, unlike operator evaluation
-    let isOperatorOverWriteable = operand2 === '' && (operand1 !== '' && operator);
-    if (isOperatorWriteable) {
-        operator = operator.textContent;
-        updateDisplays(operand1, operand2, operator);
-    } else if (isOperatorWriteable) {
-        operator = operator.textContent;
-        updateDisplays(operand1, operand2, operator);
-    }
+    let isOperatorOverWriteable = operand2 === '' && (operand1 !== '' && operator != '');
+    if (isOperatorWriteable || isOperatorOverWriteable) {
+        operator = operatorBtn.textContent;
+        updateOngoingCalculationDisplay(operand1, operand2, operator);
+        return;
+    } 
 
     // if operator is equals
     // if operator is entered a second time, so second operand is filled
