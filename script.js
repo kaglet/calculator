@@ -1,4 +1,4 @@
-function updateDisplayValueDisplay(newResult, hangingOperator = ''){
+function updateDisplayValueDisplay(newResult, hangingOperator = '') {
     let displayValueDisplay = document.getElementById('display-value');
     displayValueDisplay.textContent = newResult + hangingOperator;
 }
@@ -6,6 +6,19 @@ function updateDisplayValueDisplay(newResult, hangingOperator = ''){
 function updateOngoingCalculationDisplay(operand1, operand2, operator) {
     let ongoingCalculationDisplay = document.getElementById('ongoing-calculation');
     ongoingCalculationDisplay.textContent = operand1 + ' ' + operator + ' ' + operand2;
+}
+
+function calculateResult(operand1, operand2, operator) {
+    switch (operator) {
+        case '+':
+            return +operand1 + +operand2;
+        case 'x':
+            return +operand1 * +operand2;
+        case '-':
+            return +operand1 - +operand2;
+        case '÷':
+            return +operand1 / +operand2;
+    }
 }
 
 let digits = document.querySelectorAll('.digit');
@@ -61,18 +74,28 @@ operators.forEach(operatorBtn => operatorBtn.addEventListener('click', () => {
         operator = operatorBtn.textContent;
         updateOngoingCalculationDisplay(operand1, operand2, operator);
         return;
-    } 
-
-    // if operator is equals
-    // if operator is entered a second time, so second operand is filled
-
-    // calculate and display result, maybe update display differently based off arguments received
-    // update display using whatever arguments are present
-    // we can update operand 1, operand2, operator and return them as an arguments object
-    // only calculate result if next operand is clicked otherwise just change display as per normal
+    }
 
     return;
 }));
+
+// for second operator click
+// if all spots are full calculate new result and add hanging operator, then update display
+
+equals.addEventListener('click', (e) => {
+    // only takes effect if all arguments are present
+    if (operand1 && operand2 && operator) {
+        let newResult = calculateResult(operand1, operand2, operator);
+        updateDisplayValueDisplay(newResult);
+        updateOngoingCalculationDisplay(newResult.toString(), '', '');
+        operand1 = newResult.toString();
+        operand2 = '';
+        operator = '';
+    }
+});
+
+// for division by 0:
+// display a separate error message but set all values to default so that on next operator press user simply continues
 
 
 // function Calculator() {
