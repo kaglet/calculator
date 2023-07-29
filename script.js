@@ -1,49 +1,75 @@
-let computedFirstResult = false;
 
-function Calculator() {
-    // differentiate between code to automatically run, methods, and properties belonging to this object
 
-    // get node object of calculator
-    this.digits = document.querySelectorAll('.digit');
-    this.workingResultDisplay = document.getElementById('result');
-    this.calculationDisplay = document.getElementById('calculation');
-    this.clear = document.getElementById('clear');
-    this.del = document.getElementById('delete');
-    this.equals = document.getElementById('equals');
-    this.operators = document.querySelectorAll('.operator');
-    this.point = document.getElementById('.');
+// differentiate between code to automatically run, methods, and properties belonging to this object
 
-    // create public or private properties to track of calculator
-    // see if we can keep everything private for now
-    result = "0";
-    calculationText = "0";
-    operatorCount = 0;
+// get node object of calculator
+digits = document.querySelectorAll('.digit');
+operators = document.querySelectorAll('.operator');
+displayValueDisplay = document.getElementById('display-value');
+ongoingCalculationDisplay = document.getElementById('ongoing-calculation');
+clear = document.getElementById('clear');
+equals = document.getElementById('equals');
 
-    let isCalculationWriteable = true;
-    let isWorkingResultWriteable = true;
+let operand1 = '0', operand2 = '';
+let operator = '';
 
-    // go step by step from the start borrowing elements I find useful
+displayValueDisplay.textContent = operand1;
 
-    // allow each new digit in a number entry to be captured and written to result display
-    this.digits.forEach(digit => digit.addEventListener('click', () => {
-        if (isWorkingResultWriteable) {
-            // writing a single entry (not addition)
-            result += digit.textContent;
-            this.workingResultDisplay.textContent += result;
-        }
-    }));
+function updateDisplays(operand1, operand2, operator) {
+    dis
+};
 
-    // allow each operation to be captured and written to calculation display
-    this.operators.forEach(operator => operator.addEventListener('click', () => {
-        if (isCalculationWriteable) {
-            calculationText += result + operator.textContent;
-            // this is the thing that needs to be modified for the user to see
-            this.calculationDisplay.textContent = calculationText;
-        }
-    }));
-}
+digits.forEach(digit => digit.addEventListener('click', () => {
+    // if operand1 is still 0, and operator is empty, overwrite 0 and continue to append
+    let isOperand1Overwriteable = (operand1 === '0' && operator === '');
+    let isOperand1Appendable = (operand1 && operator === '');
+    if (isOperand1Overwriteable) {
+        operand1 = digit.textContent;
+        return;
+    } else if (isOperand1Appendable) {
+        operand1 += digit.textContent;
+        return;
+    }
 
-const calculator = new Calculator();
+    // if operand 1 is not writeable or appendable because the operator is filled then write to operand 2
+
+    operand2 += digit.textContent;
+    updateDisplays(operand1, operand2, operator);
+
+    return;
+}));
+
+operators.forEach(operator => operator.addEventListener('click', () => {
+    // check if operator is empty
+    let isOperatorWriteable = !!operator;
+    // all these must evaluate to true to be overwriteable
+    // operand1 can be 0 which is falsy, so include it, unlike operator evaluation
+    let isOperatorOverWriteable = operand2 === '' && (operand1 !== '' && operator);
+    if (isOperatorWriteable) {
+        operator = operator.textContent;
+        updateDisplays(operand1, operand2, operator);
+    } else if (isOperatorWriteable) {
+        operator = operator.textContent;
+        updateDisplays(operand1, operand2, operator);
+    }
+
+    // if operator is equals
+    // if operator is entered a second time, so second operand is filled
+
+    // calculate and display result, maybe update display differently based off arguments received
+    // update display using whatever arguments are present
+    // we can update operand 1, operand2, operator and return them as an arguments object
+    // only calculate result if next operand is clicked otherwise just change display as per normal
+
+    return;
+}));
+
+
+// function Calculator() {
+
+// }
+
+// const calculator = new Calculator();
 
 
 // let calculator = {
