@@ -48,6 +48,7 @@ let digits = document.querySelectorAll('.digit');
 let operators = document.querySelectorAll('.operator');
 let clear = document.getElementById('clear');
 let equals = document.getElementById('equals');
+let decimalPoint = document.getElementById('point');
 
 // for delete, put it together as a string, delete last value, split by operator symbol to split up the parts if there are parts
 
@@ -154,14 +155,22 @@ equals.addEventListener('click', (e) => {
 });
 
 // for decimal point
+// if first operator is filled check if it has a dot, if second operator is filled and operator beforehand check if it has a dot before appending dot, otherwise do not append
 
-// for division by 0:
-// display a separate error message but set all values to default so that on next operator press user simply continues
-
-/* update the display and simply call the reset function to start afresh, i.e. to reset the arg values */
-
-/* when you click an operator the screen is automatically updated already 
-with the values already stored so the calculation can continue */
+decimalPoint.addEventListener('click', (e) => {
+    let isOperand1Appendable = (operand1 && operator === '');
+    if (isOperand1Appendable && operand1.indexOf('.') < 0) {
+        operand1 += '.';
+        updateOngoingCalculationDisplay(operand1, operand2, operator);
+        return;
+    }
+    let isOperand2Appendable = (operand2 && operator);
+    if (isOperand2Appendable && operand2.indexOf('.') < 0) {
+        operand2 += '.';
+        updateOngoingCalculationDisplay(operand1, operand2, operator);
+        return;
+    }
+});
 
 // function Calculator() {
 
