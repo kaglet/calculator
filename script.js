@@ -22,29 +22,24 @@ function calculateResult(operand1, operand2, operator) {
 }
 
 function deleteLast(operand1, operand2, operator) {
+    // return last truthy value i.e. last filled value
+
     let calculationString = operand1.toString() + operator + operand2.toString();
     trimmedString = calculationString.substring(0, calculationString.length-1);
     
-    if (operator === ''){
+    if (trimmedString.indexOf(operator)>0){
+        let calculationArray = trimmedString.split(operator);
         return {
-            operand1 : trimmedString,
-            operand2 : null,
-            operand2 : null,
+            operand1 : calculationArray[0],
+            operand2 : calculationArray[1],
+            operator : operator,
         }
     }
-    // if the operator is present in the trimmed string
-    let calculationArray = trimmedString.split(operator);
-    operand1 = calculationArray[0];
-    operator = calculationArray[1];
-    operand2 = calculationArray[2];
-
-    // won't work as operator is lost
-    // I can't add it if it was what was trimmed
 
     return {
-        operand1,
-        operand2,
-        operator,
+        operand1 : trimmedString,
+        operand2 : null,
+        operator : null,        
     };
 }
 
