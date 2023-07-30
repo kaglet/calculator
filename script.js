@@ -49,7 +49,6 @@ let operators = document.querySelectorAll('.operator');
 let clear = document.getElementById('clear');
 let equals = document.getElementById('equals');
 
-
 // for delete, put it together as a string, delete last value, split by operator symbol to split up the parts if there are parts
 
 let operand1 = '0', operand2 = '';
@@ -133,6 +132,18 @@ equals.addEventListener('click', (e) => {
     if (operand1 && operand2 && operator) {
         let newResult = calculateResult(operand1, operand2, operator);
         
+        // for division by 0 result
+        if (isNaN(newResult) || newResult === Infinity || newResult === -Infinity){
+            // reset values to start over during next display
+            operand1 = '0';
+            operand2 = '';
+            operator = '';
+            
+            updateDisplayValueDisplay('');
+            updateOngoingCalculationDisplay('You can\'t divide by 0!', '', '');
+            return;
+        }
+
         operand1 = (newResult.toString().indexOf('.') < 0) ? newResult.toString() : newResult.toFixed(2).toString();
         operand2 = '';
         operator = '';
@@ -142,9 +153,15 @@ equals.addEventListener('click', (e) => {
     }
 });
 
+// for decimal point
+
 // for division by 0:
 // display a separate error message but set all values to default so that on next operator press user simply continues
 
+/* update the display and simply call the reset function to start afresh, i.e. to reset the arg values */
+
+/* when you click an operator the screen is automatically updated already 
+with the values already stored so the calculation can continue */
 
 // function Calculator() {
 
