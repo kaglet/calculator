@@ -3,7 +3,15 @@
     padding: 0;
     box-sizing: border-box;
     color: aliceblue;
-    border-radius: 10px;
+    border-radius: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+}
+
+h1 {
+    font-size: 65px;
+    font-weight: 700;
 }
 
 body {
@@ -11,40 +19,52 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 40px;
     height: 100vh;
-    background-color: rgb(139, 181, 192);
+    background-image: linear-gradient(to bottom right, rgb(236, 103, 233), rgb(75, 175, 233));
 }
 
 #calculator {
-    width: 350px;
-    height: 520px;
+    width: 400px;
+    height: 600px;
     display: flex;
     flex-wrap: wrap;
     gap: 9px;
     justify-content: center;
-    padding: 30px 15px;
+    padding: 15px 15px 30px;
     background-color: rgb(7, 24, 93);
+    box-shadow: -7px -10px 3px #100d2cb3 inset;
 }
 
 #calculator button {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
 }
 
 #calculator button.digit, #point {
     background-color: rgb(8, 53, 149);
 }
 
+#calculator button.digit:hover, #point:hover {
+    background-color: rgb(45, 89, 185);
+}
+
+
 #display {
     width: 96%;
-    height: 70px;
+    height: 120px;
     display: flex;
     flex-direction: column;
-    background-color: rgb(237, 195, 241);
+    background-color: rgb(221, 178, 238);
+    box-shadow: 4px 4px 1px #0f0b23 inset;
 }
 
 #equals.equals {
     background-color: rgb(196, 92, 201);
+}
+
+#equals.equals:hover {
+    background-color: rgb(206, 119, 210);
 }
 
 #calculator #delete, #calculator #clear {
@@ -52,27 +72,49 @@ body {
     background-color: rgb(59, 86, 183);
 }
 
+#calculator #delete:hover, #calculator #clear:hover {
+    background-color: rgb(85, 112, 208);
+}
+
 #calculator button, #calculator div {
-    font-size: 18px;
+    font-size: 23px;
 }
 
 #ongoing-calculation {
-    margin-right: auto;
+    text-align: left;
+    padding: 3px 12px;
 }
 
 #display-value {
-    margin-left: auto;
+    text-align: right;
+    padding: 3px 12px;
 }
 
-#ongoing-calculation, #display-value {
+div #ongoing-calculation, div #display-value {
     border: none;
     height: 50%;
     color: black;
-    padding: 10px 10px;
+    font-size: 52px;
+    font-family: 'Handjet', cursive;
+    font-weight: 300;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
-
-
 
 .operator {
     background-color: rgb(105, 44, 197);
+}
+
+.operator:hover {
+    background-color: rgb(136, 82, 219);
+}
+
+.footer {
+    font-size: 20px;
+}
+
+a, i {
+    color: rgb(83, 7, 164);
+    text-decoration: none;
 }

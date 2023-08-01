@@ -64,7 +64,9 @@ del.addEventListener('click', (e) => {
     operand1 = (args.operand1) ? args.operand1 : '0';
     operand2 = (args.operand2) ? args.operand2 : '';
     operator = (args.operator) ? args.operator : '';
-    updateOngoingCalculationDisplay(operand1, operand2, operator);
+    //
+    if (operand1 !== '0') updateOngoingCalculationDisplay(operand1, operand2, operator);
+    else updateOngoingCalculationDisplay('', operand2, operator)
 });
 
 clear.addEventListener('click', (e) => {
