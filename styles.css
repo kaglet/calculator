@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     color: aliceblue;
+    border-radius: 10px;
 }
 
 body {
@@ -11,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: cornflowerblue;
+    background-color: rgb(28, 153, 167);
 }
 
 #calculator {
@@ -22,12 +23,15 @@ body {
     gap: 9px;
     justify-content: center;
     padding: 30px 15px;
-    background-color: coral;
+    background-color: rgb(7, 24, 93);
 }
 
 #calculator button {
     width: 70px;
     height: 70px;
+}
+
+#calculator button.digit, #point {
     background-color: rgb(8, 53, 149);
 }
 
@@ -36,8 +40,7 @@ body {
     height: 70px;
     display: flex;
     flex-direction: column;
-    padding: 0px 10px;
-    background-color: rgb(238, 198, 184);
+    background-color: rgb(237, 195, 241);
 }
 
 #equals.equals {
@@ -46,6 +49,7 @@ body {
 
 #calculator #delete, #calculator #clear {
     width: 47%;
+    background-color: rgb(59, 86, 183);
 }
 
 #calculator button, #calculator div {
@@ -64,4 +68,11 @@ body {
     border: none;
     height: 50%;
     color: black;
+    padding: 10px 10px;
+}
+
+
+
+.operator {
+    background-color: rgb(105, 44, 197);
 }
