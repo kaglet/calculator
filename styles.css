@@ -49,17 +49,13 @@ button, div {
 
 #ongoing-calculation {
     margin-right: auto;
-    justify-content: flex-start;
 }
 
 #display-value {
     margin-left: auto;
-    justify-content: flex-end;
 }
 
 #ongoing-calculation, #display-value {
     border: none;
     height: 50%;
-    display: flex;
-    align-items: center;
 }

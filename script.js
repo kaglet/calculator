@@ -170,3 +170,5 @@ decimalPoint.addEventListener('click', (e) => {
         return;
     }
 });
+
+// prevent screen overflow
