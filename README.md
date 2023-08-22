@@ -8,5 +8,5 @@ Find the live preview [here](https://kaglet.github.io/calculator/).
 
 ## To add in future if I revisit
 
-- Add multiply and divide by negatives ability
-- Mobile support (?)
+- Add multiply and divide by negatives ability.
+- Mobile support (?).
